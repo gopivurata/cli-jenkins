@@ -142,15 +142,9 @@ EC2_ID=$(aws ec2 run-instances \
   --instance-type $TYPE \
   --key-name $KEY_NAME \
   --associate-public-ip-address \
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=my-instance}]" \
   --query 'Instances[0].{InstanceId:InstanceId}')
   echo "  EC2 ID '$EC2_ID' CREATED in '$REGION' region."
-
-# Add Name tag to EC2
-aws ec2 create-tags \
-  --resources $EC2_ID \
-  --tags "Key=Name,Value=$INSTANCE_NAME" \
-  --region $REGION
-echo "  EC2 ID '$EC2_ID' NAMED as '$INSTANCE_NAMEE'."
 
 
 
