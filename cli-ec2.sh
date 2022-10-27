@@ -101,45 +101,43 @@ echo "  Public Subnet ID '$SUBNET_ID' ASSOCIATED with Route Table ID" \
   "'$ROUTE_TABLE_ID'."
 
 #creating security group
-SEC_ID=$(aws ec2 create-security-group \
-    --description  "subnet security group" \
-    --group-name "mysec" \
-    --vpc-id  $VPC_ID \
-    --query  '{GroupId:GroupId}')
-  echo "  Security Group ID '$SEC_ID' CREATED." \
-    "'$SEC_ID'."
+SecGrpID=$(aws ec2 create-security-group --group-name PubSecGrp \
+            --description "Security Group for public instances" \
+            --vpc-id "$VPC_ID" \
+            --output text)
 
 # Add Name tag to security group
 aws ec2 create-tags \
-  --resources $SEC_ID \
+  --resources $SecGrpID \
   --tags "Key=Name,Value=$SEC_NAME" \
   --region $REGION
-echo "  SEC ID '$SEC_ID' NAMED as '$SEC_NAME'."
+echo "  SEC ID '$SecGrpID' NAMED as '$SEC_NAME'."
 
 #inbond rule port 22 add to security group
 aws ec2 authorize-security-group-ingress \
-    --group-id  $SEC_ID \
-    --protocol "tcp" \
-    --port 22 \
-    --cidr "0.0.0.0/0"
-    echo "  port 22 to '0.0.0.0/0'  ADDED to" \
-      "Security Group ID '$SEC_ID'."
+  --group-id $SecGrpID \
+  --protocol "tcp" \
+  --port 22 \
+  --cidr "0.0.0.0/0"
+  echo "  port 22 to '0.0.0.0/0'  ADDED to" \
+      "Security Group ID '$SecGrpID'."
+
 
 #inbond rule port 8080 add to security group
 aws ec2 authorize-security-group-ingress \
-    --group-id  $SEC_ID \
+    --group-id  $SecGrpID \
     --protocol "tcp" \
     --port 8080 \
     --cidr "0.0.0.0/0"
      echo "  port 8080 to '0.0.0.0/0'  ADDED to" \
-      "Security Group ID '$SEC_ID'."
+      "Security Group ID '$SecGrpID'."
 
 #INSTANCE CREATION  
 # ==================
 EC2_ID=$(aws ec2 run-instances \
   --image-id $IMAGE_ID \
   --count 1 \
-  --security-group-ids $SEC_ID \
+  --security-group-ids $SecGrpID \
   --subnet-id $SUBNET_ID \
   --instance-type $TYPE \
   --key-name $KEY_NAME \
