@@ -10,6 +10,7 @@ pipeline {
         }
         stage('sh file run') {
             steps {
+                sh "chmod +x -R ${env.WORKSPACE}"
                 sh './cli-ec2.sh'
             }
 
