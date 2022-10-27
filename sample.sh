@@ -31,5 +31,3 @@ SUBNET_ID=$(aws ec2 create-subnet \
   --query 'Subnet.{SubnetId:SubnetId}' \
   --output text \
   --region $AWS_REGION)
-  echo "  Subnet ID '$SUBNET_ID' CREATED in '$SUBNET_AZ'" \
-  "Availability Zone."
