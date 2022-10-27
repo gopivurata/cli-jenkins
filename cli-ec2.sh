@@ -32,7 +32,7 @@ VPC_ID=$(aws ec2 create-vpc \
   --region $REGION)
 echo "  VPC ID '$VPC_ID' CREATED in '$REGION' region."
 
-# Add Name tag to VPC
+# Add Name tag to V PC
 aws ec2 create-tags \
   --resources $VPC_ID \
   --tags "Key=Name,Value=$VPC_NAME" \
@@ -150,7 +150,7 @@ aws ec2 create-tags \
   --resources $EC2_ID \
   --tags "Key=Name,Value=$INSTANCE_NAME" \
   --region $REGION
-echo "  EC2 ID '$EC2_ID_ID' NAMED as '$INSTANCE_NAME'."
+echo "  EC2 ID '$EC2_ID' NAMED as '$INSTANCE_NAMEE'."
 
 
 
