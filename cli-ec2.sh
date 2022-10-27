@@ -105,7 +105,7 @@ SEC_ID=$(aws ec2 create-security-group \
     --description  "subnet security group" \
     --group-name "mysec" \
     --vpc-id  $VPC_ID \
-    --query  '{GroupId:GroupId'})
+    --query  '{GroupId:GroupId}')
   echo "  Security Group ID '$SEC_ID' CREATED." \
     "'$SEC_ID'."
 
