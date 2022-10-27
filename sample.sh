@@ -21,13 +21,15 @@ VPC_ID=$(aws ec2 create-vpc \
   --region $AWS_REGION)
 echo Vpc_Id = $VPC_ID  
 
-
-# Create Public Subnet
+# Create  Subnet
+echo "Creating Subnet..."
 SUBNET_ID=$(aws ec2 create-subnet \
   --vpc-id $VPC_ID \
   --cidr-block $SUBNET_CIDR \
   --availability-zone $SUBNET_AZ \
-  --query "Subnet.SubnetId" \
   --tag-specifications "ResourceType=subnet,Tags=[{Key=Name,Value=Public_Subnet}]" \
-  --region $AWS_REGION)
-echo Subnet_Id = $SUBNET_ID 
+  --query 'Subnet.{SubnetId:SubnetId}' \
+  --output text \
+  --region $REGION)
+  echo "  Subnet ID '$SUBNET_ID' CREATED in '$SUBNET_AZ'" \
+  "Availability Zone."
